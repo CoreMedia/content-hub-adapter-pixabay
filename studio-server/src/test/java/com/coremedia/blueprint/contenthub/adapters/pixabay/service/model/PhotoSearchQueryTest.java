@@ -1,5 +1,8 @@
 package com.coremedia.blueprint.contenthub.adapters.pixabay.service.model;
 
+import com.coremedia.labs.contenthub.adapters.pixabay.service.model.Entity;
+import com.coremedia.labs.contenthub.adapters.pixabay.service.model.Photo;
+import com.coremedia.labs.contenthub.adapters.pixabay.service.model.PhotoSearchQuery;
 import org.junit.Test;
 
 import java.util.Collections;

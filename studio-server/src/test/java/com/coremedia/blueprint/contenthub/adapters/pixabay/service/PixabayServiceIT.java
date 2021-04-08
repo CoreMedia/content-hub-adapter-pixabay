@@ -1,10 +1,11 @@
 package com.coremedia.blueprint.contenthub.adapters.pixabay.service;
 
-import com.coremedia.blueprint.contenthub.adapters.pixabay.service.model.Entity;
-import com.coremedia.blueprint.contenthub.adapters.pixabay.service.model.Photo;
-import com.coremedia.blueprint.contenthub.adapters.pixabay.service.model.PhotoSearchQuery;
-import com.coremedia.blueprint.contenthub.adapters.pixabay.service.model.SearchResult;
-import com.coremedia.blueprint.contenthub.adapters.pixabay.service.model.Video;
+import com.coremedia.labs.contenthub.adapters.pixabay.service.PixabayService;
+import com.coremedia.labs.contenthub.adapters.pixabay.service.model.Entity;
+import com.coremedia.labs.contenthub.adapters.pixabay.service.model.Photo;
+import com.coremedia.labs.contenthub.adapters.pixabay.service.model.PhotoSearchQuery;
+import com.coremedia.labs.contenthub.adapters.pixabay.service.model.SearchResult;
+import com.coremedia.labs.contenthub.adapters.pixabay.service.model.Video;
 import org.junit.Before;
 import org.junit.Test;
 

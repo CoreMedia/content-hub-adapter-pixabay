@@ -1,7 +1,7 @@
 {
   "studioPlugins": [
     {
-      "mainClass": "com.coremedia.blueprint.studio.contenthub.pixabay.ContentHubPixabayStudioPlugin",
+      "mainClass": "com.coremedia.labs.plugins.contenthub.pixabay.ContentHubPixabayStudioPlugin",
       "name": "Content Hub - Pixabay"
     }
   ]
