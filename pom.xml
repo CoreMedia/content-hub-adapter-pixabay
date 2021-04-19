@@ -80,7 +80,7 @@
                   <version>${project.version}</version>
                   <type>zip</type>
                   <overWrite>true</overWrite>
-                  <outputDirectory>${project.build.directory}/coremedia-plugin-bundle</outputDirectory>
+                  <outputDirectory>${project.build.directory}/coremedia-plugin-bundle/studio-client</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>${project.groupId}</groupId>
@@ -88,10 +88,9 @@
                   <version>${project.version}</version>
                   <type>zip</type>
                   <overWrite>true</overWrite>
-                  <outputDirectory>${project.build.directory}/coremedia-plugin-bundle</outputDirectory>
+                  <outputDirectory>${project.build.directory}/coremedia-plugin-bundle/studio-server</outputDirectory>
                 </artifactItem>
               </artifactItems>
-<!--              <outputDirectory>${project.build.directory}/wars</outputDirectory>-->
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>true</overWriteSnapshots>
             </configuration>
