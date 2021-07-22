@@ -14,6 +14,7 @@ import com.coremedia.contenthub.api.ContentModelReference;
 import com.coremedia.contenthub.api.Item;
 import com.coremedia.contenthub.api.UrlBlobBuilder;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,9 +34,10 @@ public class PixabayContentHubTransformer implements ContentHubTransformer {
     PixabayItem item = (PixabayItem) source;
     LOG.info("Creating content model for item {}.", item);
 
-    ContentModel contentModel = ContentModel.createContentModel(item);
-    contentModel.put("title", item.getName());
-    contentModel.put("copyright", item.getCopyright() );
+    String contentName = FilenameUtils.removeExtension(item.getName());
+    ContentModel contentModel = ContentModel.createContentModel(contentName, item.getId(), item.getCoreMediaContentType());
+    contentModel.put("title", contentName);
+    contentModel.put("copyright", item.getCopyright());
 
     if (item instanceof PixabayPhotoItem) {
       ContentHubBlob blob = item.getBlob("file");
