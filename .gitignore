@@ -23,6 +23,8 @@ overlays/
 /**/node/
 /**/node_modules/
 
+yarn.lock
+
 # Logs:
 *.log
 *.out
