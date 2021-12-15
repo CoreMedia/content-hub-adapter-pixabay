@@ -1,22 +1,23 @@
 package com.coremedia.blueprint.contenthub.adapters.pixabay.service;
 
-import com.coremedia.labs.contenthub.adapters.pixabay.service.PixabayService;
-import com.coremedia.labs.contenthub.adapters.pixabay.service.model.Entity;
-import com.coremedia.labs.contenthub.adapters.pixabay.service.model.Photo;
-import com.coremedia.labs.contenthub.adapters.pixabay.service.model.PhotoSearchQuery;
-import com.coremedia.labs.contenthub.adapters.pixabay.service.model.SearchResult;
-import com.coremedia.labs.contenthub.adapters.pixabay.service.model.Video;
-import org.junit.Before;
-import org.junit.Test;
+import com.coremedia.labs.plugins.adapters.pixabay.service.PixabayService;
+import com.coremedia.labs.plugins.adapters.pixabay.service.model.Entity;
+import com.coremedia.labs.plugins.adapters.pixabay.service.model.Photo;
+import com.coremedia.labs.plugins.adapters.pixabay.service.model.PhotoSearchQuery;
+import com.coremedia.labs.plugins.adapters.pixabay.service.model.SearchResult;
+import com.coremedia.labs.plugins.adapters.pixabay.service.model.Video;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 public class PixabayServiceIT {
 
   private PixabayService testling;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     testling = new PixabayService("5615410-fc2a92ac13df16ce8f73f6ed1");
   }
