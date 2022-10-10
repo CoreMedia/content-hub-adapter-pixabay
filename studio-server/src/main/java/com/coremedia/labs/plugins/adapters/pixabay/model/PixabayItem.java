@@ -8,6 +8,7 @@ import com.coremedia.contenthub.api.Item;
 import com.coremedia.contenthub.api.UrlBlobBuilder;
 import com.coremedia.contenthub.api.preview.DetailsElement;
 import com.coremedia.contenthub.api.preview.DetailsSection;
+import com.coremedia.mimetype.MimeTypeService;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.apache.commons.lang3.StringUtils;
@@ -20,9 +21,12 @@ public abstract class PixabayItem extends PixabayContentHubObject implements Ite
 
   private PixabayContentHubType type;
 
-  public PixabayItem(@NonNull ContentHubObjectId objectId, PixabayContentHubType type) {
+  private MimeTypeService mimeTypeService;
+
+  public PixabayItem(@NonNull ContentHubObjectId objectId, PixabayContentHubType type, MimeTypeService mimeTypeService) {
     super(objectId);
     this.type = type;
+    this.mimeTypeService = mimeTypeService;
   }
 
   @Override
@@ -54,7 +58,8 @@ public abstract class PixabayItem extends PixabayContentHubObject implements Ite
 
     if (StringUtils.isNotBlank(blobUrl)) {
       try {
-        blob = new UrlBlobBuilder(this, classifier).withUrl(blobUrl).build();
+        //blob = new UrlBlobBuilder(this, classifier).withUrl(blobUrl).build();
+        blob = new PixabayContentHubBlob(this, classifier, blobUrl, mimeTypeService);
       } catch (Exception e) {
         throw new IllegalArgumentException("Cannot create blob for " + this, e);
       }

@@ -27,6 +27,7 @@ import com.coremedia.contenthub.api.pagination.PaginationRequest;
 import com.coremedia.contenthub.api.search.ContentHubSearchResult;
 import com.coremedia.contenthub.api.search.ContentHubSearchService;
 import com.coremedia.contenthub.api.search.Sort;
+import com.coremedia.mimetype.MimeTypeService;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.apache.commons.lang3.StringUtils;
@@ -50,13 +51,16 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
 
   private PixabayService pixabayService;
 
+  private MimeTypeService mimeTypeService;
+
   private PixabayFolder rootFolder;
   private PixabayFolder photosRootFolder;
   private PixabayFolder videosRootFolder;
 
-  public PixabayContentHubAdapter(PixabayContentHubSettings settings, String connectionId) {
+  public PixabayContentHubAdapter(PixabayContentHubSettings settings, String connectionId, MimeTypeService mimeTypeService) {
     this.settings = settings;
     this.connectionId = connectionId;
+    this.mimeTypeService = mimeTypeService;
 
     rootFolder = new PixabayFolder(new ContentHubObjectId(connectionId, "root"), settings.getDisplayName(), PixabayContentHubType.FOLDER);
     photosRootFolder = new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos"), "Photos", PhotoSearchQuery.queryForTerm("*"), PixabayContentHubType.PHOTO);
@@ -308,12 +312,12 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
 
   private PixabayPhotoItem createPhotoItem(@NonNull Photo photo) {
     ContentHubObjectId hubId = new ContentHubObjectId(connectionId, "photo-" + photo.getId());
-    return new PixabayPhotoItem(hubId, photo);
+    return new PixabayPhotoItem(hubId, photo, mimeTypeService);
   }
 
   private PixabayVideoItem createVideoItem(@NonNull Video video) {
     ContentHubObjectId hubId = new ContentHubObjectId(connectionId, "video-" + video.getId());
-    return new PixabayVideoItem(hubId, video);
+    return new PixabayVideoItem(hubId, video, mimeTypeService);
   }
 
 }

@@ -6,6 +6,7 @@ import com.coremedia.contenthub.api.ContentHubObjectId;
 import com.coremedia.contenthub.api.UrlBlobBuilder;
 import com.coremedia.contenthub.api.preview.DetailsElement;
 import com.coremedia.contenthub.api.preview.DetailsSection;
+import com.coremedia.mimetype.MimeTypeService;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +20,8 @@ public class PixabayVideoItem extends PixabayItem {
 
   private Video video;
 
-  public PixabayVideoItem(@NonNull ContentHubObjectId objectId, @NonNull Video video) {
-    super(objectId, PixabayContentHubType.VIDEO);
+  public PixabayVideoItem(@NonNull ContentHubObjectId objectId, @NonNull Video video, @NonNull MimeTypeService mimeTypeService) {
+    super(objectId, PixabayContentHubType.VIDEO, mimeTypeService);
     this.video = video;
   }
 
