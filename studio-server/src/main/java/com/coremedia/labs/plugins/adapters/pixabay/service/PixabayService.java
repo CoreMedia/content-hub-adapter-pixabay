@@ -310,6 +310,7 @@ public class PixabayService {
     } else if (searchQuery instanceof VideoSearchQuery) {
       VideoSearchQuery videoQuery = (VideoSearchQuery) searchQuery;
       result.put(VIDEO_TYPE, videoQuery.getVideoType());
+      result.put(CATEGORY, videoQuery.getCategory());
     }
 
     result.put(LANG, searchQuery.getLanguageCode());
