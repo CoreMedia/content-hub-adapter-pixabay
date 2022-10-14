@@ -126,15 +126,14 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
     return getFolder(id, rootFolder);
   }
 
-  private PixabayFolder getFolder(ContentHubObjectId id,  Folder f) throws ContentHubException {
+  private PixabayFolder getFolder(ContentHubObjectId id, Folder f) throws ContentHubException {
     PixabayFolder folder = (PixabayFolder) f;
-    if (folder.getId().equals(id)){
+    if (folder.getId().equals(id)) {
       return folder;
-    }
-    else if (folder.getSubfolders().size()>0){
-      for (Folder item: folder.getSubfolders()){
+    } else if (folder.getSubfolders().size() > 0) {
+      for (Folder item : folder.getSubfolders()) {
         PixabayFolder tmp = getFolder(id, item);
-        if (tmp != null){
+        if (tmp != null) {
           return tmp;
         }
       }
@@ -265,7 +264,7 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
     }
 
     // Photo Search
-    if (PixabayContentHubType.PHOTO.getType().equals(type) && belowFolder.equals(photosRootFolder)) {
+    if (PixabayContentHubType.PHOTO.getType().equals(type) && isBelowPhotoFolder(belowFolder)) {
       SearchResult<Photo> searchResult;
 
       if (entityId > 0) {
@@ -290,7 +289,7 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
       }
 
       // Video Search
-    } else if (PixabayContentHubType.VIDEO.getType().equals(type) && belowFolder.equals(videosRootFolder)) {
+    } else if (PixabayContentHubType.VIDEO.getType().equals(type) && isBelowVideoFolder(belowFolder)) {
       SearchResult<Video> searchResult;
 
       if (entityId > 0) {
@@ -315,6 +314,24 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
       }
     }
 
+    return result;
+  }
+
+  private boolean isBelowPhotoFolder(Folder belowFolder) {
+    boolean result = false;
+    if (belowFolder instanceof PixabaySearchFolder) {
+      PixabaySearchFolder folder = (PixabaySearchFolder) belowFolder;
+      result = folder.getContentHubType().getName().toUpperCase().equals(PixabayContentHubType.PHOTO.name());
+    }
+    return result;
+  }
+
+  private boolean isBelowVideoFolder(Folder belowFolder) {
+    boolean result = false;
+    if (belowFolder instanceof PixabaySearchFolder) {
+      PixabaySearchFolder folder = (PixabaySearchFolder) belowFolder;
+      result = folder.getContentHubType().getName().toUpperCase().equals(PixabayContentHubType.VIDEO.name());
+    }
     return result;
   }
 
