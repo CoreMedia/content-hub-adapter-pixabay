@@ -8,8 +8,8 @@ public class PixabaySearchFolder extends PixabayFolder {
 
   private SearchQuery query;
 
-  public PixabaySearchFolder(@NonNull ContentHubObjectId objectId, String name, SearchQuery query, PixabayContentHubType type) {
-    super(objectId, name, type);
+  public PixabaySearchFolder(@NonNull ContentHubObjectId objectId, String name, SearchQuery query, PixabayContentHubType type, PixabayFolder parent) {
+    super(objectId, name, type, parent);
     this.query = query;
   }
 

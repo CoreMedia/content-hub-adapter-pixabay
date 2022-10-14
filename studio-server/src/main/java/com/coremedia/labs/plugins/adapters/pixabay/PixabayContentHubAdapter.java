@@ -34,11 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -62,9 +58,9 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
     this.connectionId = connectionId;
     this.mimeTypeService = mimeTypeService;
 
-    rootFolder = new PixabayFolder(new ContentHubObjectId(connectionId, "root"), settings.getDisplayName(), PixabayContentHubType.FOLDER);
-    photosRootFolder = new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos"), "Photos", PhotoSearchQuery.queryForTerm("*"), PixabayContentHubType.PHOTO);
-    videosRootFolder = new PixabaySearchFolder(new ContentHubObjectId(connectionId, "video"), "Videos", VideoSearchQuery.queryForTerm("*"), PixabayContentHubType.VIDEO);
+    rootFolder = new PixabayFolder(new ContentHubObjectId(connectionId, "root"), settings.getDisplayName(), PixabayContentHubType.FOLDER, null);
+    photosRootFolder = new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos"), "Photos", PhotoSearchQuery.queryForTerm("*"), PixabayContentHubType.PHOTO, rootFolder);
+    videosRootFolder = new PixabaySearchFolder(new ContentHubObjectId(connectionId, "video"), "Videos", VideoSearchQuery.queryForTerm("*"), PixabayContentHubType.VIDEO, rootFolder);
 
     rootFolder.addSubfolder(photosRootFolder);
     rootFolder.addSubfolder(videosRootFolder);
@@ -72,46 +68,46 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
     boolean safeSearch = settings.isSafeSearch();
 
     // Photo categories
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-backgrounds"), "Backgrounds", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.backgrounds).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-fashion"), "Fashion", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.fashion).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-nature"), "Nature", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.nature).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-science"), "Science", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.science).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-education"), "Education", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.education).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-feelings"), "Feelings", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.feelings).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-health"), "Health", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.health).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-people"), "People", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.people).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-religion"), "Religion", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.religion).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-animals"), "Animals", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.animals).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-industry"), "Industry", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.industry).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-computer"), "Computer", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.computer).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-food"), "Food", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.food).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-sports"), "Sports", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.sports).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-transportation"), "Transportation", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.transportation).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-travel"), "Travel", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.travel).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-buildings"), "Buildings", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.buildings).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-business"), "Business", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.business).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
-    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-music"), "Music", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.music).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-backgrounds"), "Backgrounds", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.backgrounds).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-fashion"), "Fashion", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.fashion).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-nature"), "Nature", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.nature).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-science"), "Science", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.science).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-education"), "Education", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.education).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-feelings"), "Feelings", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.feelings).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-health"), "Health", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.health).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-people"), "People", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.people).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-religion"), "Religion", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.religion).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-animals"), "Animals", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.animals).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-industry"), "Industry", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.industry).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-computer"), "Computer", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.computer).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-food"), "Food", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.food).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-sports"), "Sports", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.sports).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-transportation"), "Transportation", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.transportation).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-travel"), "Travel", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.travel).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-buildings"), "Buildings", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.buildings).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-business"), "Business", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.business).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
+    photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-music"), "Music", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.music).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
 
     // Video categories
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-backgrounds"), "Backgrounds", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.backgrounds).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-fashion"), "Fashion", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.fashion).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-nature"), "Nature", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.nature).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-science"), "Science", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.science).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-education"), "Education", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.education).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-feelings"), "Feelings", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.feelings).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-health"), "Health", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.health).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-people"), "People", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.people).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-religion"), "Religion", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.religion).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-animals"), "Animals", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.animals).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-industry"), "Industry", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.industry).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-computer"), "Computer", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.computer).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-food"), "Food", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.food).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-sports"), "Sports", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.sports).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-transportation"), "Transportation", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.transportation).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-travel"), "Travel", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.travel).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-buildings"), "Buildings", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.buildings).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-business"), "Business", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.business).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
-    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-music"), "Music", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.music).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-backgrounds"), "Backgrounds", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.backgrounds).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-fashion"), "Fashion", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.fashion).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-nature"), "Nature", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.nature).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-science"), "Science", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.science).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-education"), "Education", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.education).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-feelings"), "Feelings", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.feelings).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-health"), "Health", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.health).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-people"), "People", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.people).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-religion"), "Religion", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.religion).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-animals"), "Animals", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.animals).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-industry"), "Industry", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.industry).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-computer"), "Computer", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.computer).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-food"), "Food", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.food).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-sports"), "Sports", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.sports).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-transportation"), "Transportation", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.transportation).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-travel"), "Travel", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.travel).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-buildings"), "Buildings", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.buildings).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-business"), "Business", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.business).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
+    videosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos-music"), "Music", VideoSearchQuery.queryForTerm("*").withCategory(Entity.Category.music).withSafeSearch(safeSearch), PixabayContentHubType.VIDEO, videosRootFolder));
 
     pixabayService = new PixabayService(settings.getApiKey());
   }
@@ -119,15 +115,33 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
   // --- ContentHubAdapter ---------------------------------------------------------------------------------------------
 
   @Override
-  public Folder getRootFolder(ContentHubContext context) throws ContentHubException {
+  public PixabayFolder getRootFolder(ContentHubContext context) throws ContentHubException {
     return rootFolder;
   }
 
   @Nullable
   @Override
   public Folder getFolder(ContentHubContext context, ContentHubObjectId id) throws ContentHubException {
-    return getRootFolder(context);
+    PixabayFolder rootFolder = getRootFolder(context);
+    return getFolder(id, rootFolder);
   }
+
+  private PixabayFolder getFolder(ContentHubObjectId id,  Folder f) throws ContentHubException {
+    PixabayFolder folder = (PixabayFolder) f;
+    if (folder.getId().equals(id)){
+      return folder;
+    }
+    else if (folder.getSubfolders().size()>0){
+      for (Folder item: folder.getSubfolders()){
+        PixabayFolder tmp = getFolder(id, item);
+        if (tmp != null){
+          return tmp;
+        }
+      }
+    }
+    return null;
+  }
+
 
   public List<Folder> getSubFolders(ContentHubContext context, Folder folder) throws ContentHubException {
     if (folder instanceof PixabayFolder) {
@@ -140,8 +154,15 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
   @Nullable
   @Override
   public Folder getParent(ContentHubContext context, ContentHubObject contentHubObject) throws ContentHubException {
-    return rootFolder == contentHubObject ? null : getRootFolder(context);
+    PixabayFolder folder = getFolder(contentHubObject.getId());
+    if (folder == null) return rootFolder;
+    return folder.getParent();
   }
+
+  private PixabayFolder getFolder(ContentHubObjectId id) {
+    return getFolder(id, rootFolder);
+  }
+
 
   public List<Item> getItems(ContentHubContext context, Folder folder) throws ContentHubException {
     List<Item> items = Collections.emptyList();
@@ -244,7 +265,7 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
     }
 
     // Photo Search
-    if (PixabayContentHubType.PHOTO.getType().equals(type)) {
+    if (PixabayContentHubType.PHOTO.getType().equals(type) && belowFolder.equals(photosRootFolder)) {
       SearchResult<Photo> searchResult;
 
       if (entityId > 0) {
@@ -269,7 +290,7 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
       }
 
       // Video Search
-    } else if (PixabayContentHubType.VIDEO.getType().equals(type)) {
+    } else if (PixabayContentHubType.VIDEO.getType().equals(type) && belowFolder.equals(videosRootFolder)) {
       SearchResult<Video> searchResult;
 
       if (entityId > 0) {

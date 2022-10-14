@@ -13,12 +13,14 @@ public class PixabayFolder extends PixabayContentHubObject implements Folder {
   private final ContentHubType type;
   private final String name;
   private List<Folder> subfolders;
+  private Folder parent = null;
 
-  public PixabayFolder(@NonNull ContentHubObjectId objectId, String name, PixabayContentHubType type) {
+  public PixabayFolder(@NonNull ContentHubObjectId objectId, String name, PixabayContentHubType type, PixabayFolder parent) {
     super(objectId);
     this.name = name;
     this.type = type.getType();
     this.subfolders = new ArrayList<>();
+    this.parent = parent;
   }
 
   @Override
@@ -44,4 +46,7 @@ public class PixabayFolder extends PixabayContentHubObject implements Folder {
     this.subfolders.add(folder);
   }
 
+  public Folder getParent() {
+    return parent;
+  }
 }
