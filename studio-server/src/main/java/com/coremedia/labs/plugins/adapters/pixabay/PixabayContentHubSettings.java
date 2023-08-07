@@ -4,6 +4,6 @@ public interface PixabayContentHubSettings {
 
   String getApiKey();
   String getDisplayName();
-  boolean isSafeSearch();
+  boolean getSafeSearch();
 
 }

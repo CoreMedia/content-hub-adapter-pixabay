@@ -65,7 +65,7 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
     rootFolder.addSubfolder(photosRootFolder);
     rootFolder.addSubfolder(videosRootFolder);
 
-    boolean safeSearch = settings.isSafeSearch();
+    boolean safeSearch = settings.getSafeSearch();
 
     // Photo categories
     photosRootFolder.addSubfolder(new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos-backgrounds"), "Backgrounds", PhotoSearchQuery.queryForTerm("*").withCategory(Entity.Category.backgrounds).withSafeSearch(safeSearch), PixabayContentHubType.PHOTO, photosRootFolder));
@@ -168,7 +168,7 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
 
     try {
       if (rootFolder == folder) {
-        items = pixabayService.searchPhotos(PhotoSearchQuery.queryForTerm("*").withSafeSearch(settings.isSafeSearch())).getHits()
+        items = pixabayService.searchPhotos(PhotoSearchQuery.queryForTerm("*").withSafeSearch(settings.getSafeSearch())).getHits()
                 .stream()
                 .map(this::createPhotoItem)
                 .collect(Collectors.toUnmodifiableList());
@@ -277,7 +277,7 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
         searchResult = pixabayService.searchPhotos(sq);
 
       } else {
-        searchResult = pixabayService.searchPhotos(query, settings.isSafeSearch(), 1, limit, Entity.Order.latest);
+        searchResult = pixabayService.searchPhotos(query, settings.getSafeSearch(), 1, limit, Entity.Order.latest);
       }
 
       if (searchResult != null && searchResult.getHits() != null) {
@@ -302,7 +302,7 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
         searchResult = pixabayService.searchVideos(sq);
 
       } else {
-        searchResult = pixabayService.searchVideos(query, settings.isSafeSearch(), 1, limit, Entity.Order.latest);
+        searchResult = pixabayService.searchVideos(query, settings.getSafeSearch(), 1, limit, Entity.Order.latest);
       }
 
       if (searchResult != null && searchResult.getHits() != null) {
