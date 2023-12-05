@@ -15,6 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
+import static com.coremedia.contenthub.api.ContentHubBlob.THUMBNAIL_BLOB_CLASSIFIER;
+
 public abstract class PixabayItem extends PixabayContentHubObject implements Item {
 
   protected static final String COPYRIGHT_PREFIX = "pixabay.com";
@@ -54,7 +56,7 @@ public abstract class PixabayItem extends PixabayContentHubObject implements Ite
   @Override
   public ContentHubBlob getBlob(String classifier) {
     ContentHubBlob blob = null;
-    String blobUrl = getDataUrl();
+    String blobUrl = THUMBNAIL_BLOB_CLASSIFIER.equals(classifier) ? getThumbnailUrl() : getDataUrl();
 
     if (StringUtils.isNotBlank(blobUrl)) {
       try {
@@ -66,6 +68,12 @@ public abstract class PixabayItem extends PixabayContentHubObject implements Ite
     }
 
     return blob;
+  }
+
+  @Nullable
+  @Override
+  public ContentHubBlob getThumbnailBlob() {
+    return getBlob(THUMBNAIL_BLOB_CLASSIFIER);
   }
 
 }

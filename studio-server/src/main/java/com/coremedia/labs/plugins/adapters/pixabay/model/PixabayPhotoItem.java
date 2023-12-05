@@ -15,6 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 import java.util.Objects;
 
+import static com.coremedia.contenthub.api.ContentHubBlob.THUMBNAIL_BLOB_CLASSIFIER;
+
 public class PixabayPhotoItem extends PixabayItem {
 
   private Photo photo;
@@ -37,12 +39,6 @@ public class PixabayPhotoItem extends PixabayItem {
 
   @Nullable
   @Override
-  public ContentHubBlob getThumbnailBlob() {
-    return getBlob(ContentHubBlob.THUMBNAIL_BLOB_CLASSIFIER);
-  }
-
-  @Nullable
-  @Override
   public String getDescription() {
     return "";
   }
@@ -53,7 +49,7 @@ public class PixabayPhotoItem extends PixabayItem {
     ContentHubBlob blob = null;
     String thumbnailUrl = getThumbnailUrl();
     if (StringUtils.isNotBlank(thumbnailUrl)) {
-      blob = new UrlBlobBuilder(this, "preview").withUrl(thumbnailUrl).build();
+      blob = new UrlBlobBuilder(this, THUMBNAIL_BLOB_CLASSIFIER).withUrl(thumbnailUrl).build();
     }
 
     return List.of(

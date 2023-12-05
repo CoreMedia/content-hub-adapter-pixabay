@@ -16,6 +16,8 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
+import static com.coremedia.contenthub.api.ContentHubBlob.THUMBNAIL_BLOB_CLASSIFIER;
+
 public class PixabayVideoItem extends PixabayItem {
 
   private Video video;
@@ -48,7 +50,7 @@ public class PixabayVideoItem extends PixabayItem {
     ContentHubBlob blob = null;
     String thumbnailUrl = getThumbnailUrl();
     if (StringUtils.isNotBlank(thumbnailUrl)) {
-      blob = new UrlBlobBuilder(this, "preview").withUrl(thumbnailUrl).build();
+      blob = new UrlBlobBuilder(this, THUMBNAIL_BLOB_CLASSIFIER).withUrl(thumbnailUrl).build();
     }
 
     Duration videoDuration = Duration.ofSeconds(getVideo().getDuration());
@@ -82,6 +84,17 @@ public class PixabayVideoItem extends PixabayItem {
   @Override
   public String getThumbnailUrl() {
     return String.format("https://i.vimeocdn.com/video/%s_640x360.jpg", video.getPictureId());
+  }
+
+  @Nullable
+  @Override
+  public ContentHubBlob getThumbnailBlob() {
+    String thumbnailUrl = getThumbnailUrl();
+    ContentHubBlob blob = null;
+    if (StringUtils.isNotBlank(thumbnailUrl)) {
+      blob = new UrlBlobBuilder(this, THUMBNAIL_BLOB_CLASSIFIER).withUrl(thumbnailUrl).build();
+    }
+    return blob;
   }
 
   @Override
