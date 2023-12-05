@@ -60,7 +60,7 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
 
     rootFolder = new PixabayFolder(new ContentHubObjectId(connectionId, "root"), settings.getDisplayName(), PixabayContentHubType.FOLDER, null);
     photosRootFolder = new PixabaySearchFolder(new ContentHubObjectId(connectionId, "photos"), "Photos", PhotoSearchQuery.queryForTerm("*"), PixabayContentHubType.PHOTO, rootFolder);
-    videosRootFolder = new PixabaySearchFolder(new ContentHubObjectId(connectionId, "video"), "Videos", VideoSearchQuery.queryForTerm("*"), PixabayContentHubType.VIDEO, rootFolder);
+    videosRootFolder = new PixabaySearchFolder(new ContentHubObjectId(connectionId, "videos"), "Videos", VideoSearchQuery.queryForTerm("*"), PixabayContentHubType.VIDEO, rootFolder);
 
     rootFolder.addSubfolder(photosRootFolder);
     rootFolder.addSubfolder(videosRootFolder);
@@ -143,11 +143,12 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
 
 
   public List<Folder> getSubFolders(ContentHubContext context, Folder folder) throws ContentHubException {
+    List<Folder> subfolders = Collections.emptyList();
     if (folder instanceof PixabayFolder) {
       PixabayFolder parent = (PixabayFolder) folder;
-      return parent.getSubfolders();
+      subfolders = parent.getSubfolders();
     }
-    return Collections.emptyList();
+    return subfolders;
   }
 
   @Nullable
@@ -190,7 +191,7 @@ public class PixabayContentHubAdapter implements ContentHubAdapter, ContentHubSe
       }
 
     } catch (Exception e) {
-      LOG.warn("Unable to get items for folder {}. {}", folder, e);
+      LOG.warn("Unable to get items for folder {}.", folder, e);
     }
 
     return items;
