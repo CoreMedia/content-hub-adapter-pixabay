@@ -1,16 +1,15 @@
 package com.coremedia.labs.plugins.adapters.pixabay.model;
 
 import com.coremedia.contenthub.api.ContentHubBlob;
-import com.coremedia.contenthub.api.ContentHubDefaultBlob;
 import com.coremedia.contenthub.api.ContentHubObject;
 import com.coremedia.contenthub.api.UrlBlobBuilder;
 import com.coremedia.mimetype.MimeTypeService;
+import jakarta.activation.MimeType;
+import jakarta.activation.MimeTypeParseException;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.activation.MimeType;
-import javax.activation.MimeTypeParseException;
 import java.io.InputStream;
 import java.util.Optional;
 
