@@ -1,8 +1,8 @@
 import SvgIconUtil from "@coremedia/studio-client.base-models/util/SvgIconUtil";
-import CoreIcons_properties from "@coremedia/studio-client.core-icons/CoreIcons_properties";
-import icon from "./icons/pixabay_16.svg";
-import photo from "./icons/content-hub-photo_16.svg";
-import video from "./icons/content-hub-video_16.svg";
+import icon from "./icons/pixabay.svg";
+import { personalFolderPicture, personalFolderVideo } from "@coremedia/studio-client.common-icons";
+import photo from "./icons/content-hub-photo.svg";
+import video from "./icons/content-hub-video.svg";
 
 interface ContentHubPixabay_properties {
 
@@ -36,9 +36,9 @@ const ContentHubPixabay_properties: ContentHubPixabay_properties = {
   adapter_type_pixabay_name: "Pixabay",
   adapter_type_pixabay_icon: SvgIconUtil.getIconStyleClassForSvgIcon(icon),
   folder_type_photo_name: "Photos",
-  folder_type_photo_icon: CoreIcons_properties.personal_folder_picture,
+  folder_type_photo_icon: SvgIconUtil.getIconStyleClassForSvgIcon(personalFolderPicture),
   folder_type_video_name: "Videos",
-  folder_type_video_icon: CoreIcons_properties.personal_folder_video,
+  folder_type_video_icon: SvgIconUtil.getIconStyleClassForSvgIcon(personalFolderVideo),
   item_type_photo_name: "Photo",
   item_type_photo_icon: SvgIconUtil.getIconStyleClassForSvgIcon(photo),
   item_type_video_name: "Video",

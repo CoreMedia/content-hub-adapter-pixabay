@@ -5,16 +5,14 @@
 
   <groupId>com.coremedia.labs.plugins</groupId>
   <artifactId>studio-server.content-hub-adapter-pixabay</artifactId>
-  <version>2.0.9-SNAPSHOT</version>
+  <version>3.0.0-SNAPSHOT</version>
   <packaging>coremedia-plugin</packaging>
 
   <properties>
-    <maven.compiler.release>11</maven.compiler.release>
+    <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <cm.studio-server.core.version>2404.1</cm.studio-server.core.version>
-    <cm.common.core.version>2404.1</cm.common.core.version>
-    <jackson.version>2.12.3</jackson.version>
+    <cm.version>2512.0.0</cm.version>
   </properties>
 
   <repositories>
@@ -41,28 +39,28 @@
       <dependency>
         <groupId>com.coremedia.cms</groupId>
         <artifactId>studio-server-core-bom</artifactId>
-        <version>${cm.studio-server.core.version}</version>
+        <version>${cm.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>com.coremedia.cms</groupId>
         <artifactId>studio-server-thirdparty-for-plugins-bom</artifactId>
-        <version>${cm.studio-server.core.version}</version>
+        <version>${cm.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>com.coremedia.cms</groupId>
         <artifactId>common-core-bom</artifactId>
-        <version>${cm.common.core.version}</version>
+        <version>${cm.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
-        <groupId>org.junit</groupId>
-        <artifactId>junit-bom</artifactId>
-        <version>5.7.1</version>
+        <groupId>com.coremedia.cms</groupId>
+        <artifactId>common-thirdparty-bom</artifactId>
+        <version>${cm.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -70,6 +68,8 @@
   </dependencyManagement>
 
   <dependencies>
+
+    <!-- COREMEDIA dependencies -->
     <dependency>
       <groupId>com.coremedia.cms</groupId>
       <artifactId>content-hub-api</artifactId>
@@ -82,10 +82,11 @@
       <scope>provided</scope>
     </dependency>
 
+
+    <!-- THIRD-PARTY dependencies -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.12.0</version>
     </dependency>
 
     <dependency>
@@ -99,41 +100,45 @@
       <artifactId>spring-context</artifactId>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>com.github.spotbugs</groupId>
       <artifactId>spotbugs-annotations</artifactId>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.10.0</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
-      <version>${jackson.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>jakarta.activation</groupId>
       <artifactId>jakarta.activation-api</artifactId>
-      <version>2.1.2</version>
       <scope>provided</scope>
     </dependency>
+
+
+    <!-- TEST scope -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -153,7 +158,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.2</version>
+        <version>3.6.0</version>
         <configuration>
           <ignoredDependencies>
             <!-- JUnit Jupiter: Use Aggregator rather than API/Engine Artifacts directly -->
@@ -185,7 +190,7 @@
       <plugin>
         <groupId>com.coremedia.maven</groupId>
         <artifactId>coremedia-plugins-maven-plugin</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <extensions>true</extensions>
         <configuration>
           <pluginId>${project.artifactId}</pluginId>
